@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -50,7 +51,7 @@
 <body>
     <div class="container">
         <h1>Request Counter</h1>
-        <p>Real-time request count chart</p>
+        <p>Real-time request count</p>
         <div id="chart-container"></div>
     </div>
     <script>
@@ -62,7 +63,7 @@
                     animation: Highcharts.svg,
                 },
                 title: {
-                    text: 'Request Count per Second',
+                    text: 'Requests per Second',
                     style: { color: 'white' }
                 },
                 xAxis: {
@@ -83,20 +84,21 @@
                     color: '#FF0000'
                 }],
                 credits: { enabled: false }
-            });function updateChart() {
-            let x = (new Date()).getTime();
-            fetch('/api/requests')
-                .then(response => response.json())
-                .then(data => {
-                    let y = data.requestCount;
-                    chart.series[0].addPoint([x, y], true, chart.series[0].data.length > 20);
-                })
-                .catch(error => console.error('Error fetching data:', error));
-        }
+            });
 
-        setInterval(updateChart, 1000);
-    });
-</script>
+            function updateChart() {
+                fetch('/api/request-count')
+                    .then(res => res.json())
+                    .then(data => {
+                        let x = (new Date()).getTime();
+                        let y = data.requestCount;
+                        chart.series[0].addPoint([x, y], true, chart.series[0].data.length > 20);
+                    })
+                    .catch(err => console.error('Error fetching request count:', err));
+            }
 
+            setInterval(updateChart, 1000); // Update setiap 1 detik
+        });
+    </script>
 </body>
 </html>
