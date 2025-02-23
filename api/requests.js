@@ -1,2 +1,7 @@
-let requestCount = 0;
-export default function handler(req, res) { requestCount++; // Tambah hitungan setiap request res.status(200).json({ requestCount }); }
+export default function handler(req, res) {
+    if (!globalThis.requestCount) {
+        globalThis.requestCount = 0; // Inisialisasi jika belum ada
+    }
+    globalThis.requestCount++; // Tambah jumlah request
+    res.status(200).json({ requestCount: globalThis.requestCount });
+}
