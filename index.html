@@ -1,66 +1,92 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Requests</title>
-    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DSTAT | @kittylovers321</title>
     <style>
         body {
-            background-color: #000;
-            color: #ff0000;
-            font-family: 'Arial', sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #f5f5f5;
+            text-align: center;
             margin: 0;
         }
-        #container {
-            width: 80%;
-            max-width: 800px;
-            height: 400px;
-            border-radius: 10px;
-            padding: 20px;
-            background: #1e0000;
-            box-shadow: 0px 0px 30px rgba(255, 0, 0, 0.8);
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
         }
-        h1 {
-            margin-bottom: 20px;
-            text-shadow: 0px 0px 20px rgba(255, 0, 0, 0.8);
+        .btn {
+            display: inline-block;
+            background-color: #d32f2f;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 10px;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background-color: #a52f2f;
+        }
+        .leaderboard {
+            background: #292929;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #444;
+        }
+        th {
+            background: #d32f2f;
+            color: white;
         }
     </style>
 </head>
 <body>
-    <h1>Live Request Count</h1>
-    <div id="container"></div>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            Highcharts.chart('container', {
-                chart: { 
-                    type: 'spline', 
-                    backgroundColor: '#1e0000',
-                    borderRadius: 10,
-                    events: { load: function() {
-                        var series = this.series[0];
-                        setInterval(async function() {
-                            try {
-                                const response = await fetch('/hit');
-                                const data = await response.json();
-                                const x = (new Date()).getTime(), y = data.requests;
-                                series.addPoint([x, y], true, series.data.length > 20);
-                            } catch (error) { console.error("Error fetching data:", error); }
-                        }, 1000);
-                    }}
-                },
-                title: { text: 'Live Request Count', style: { color: '#ff0000', textShadow: '0px 0px 10px rgba(255, 0, 0, 1)' } },
-                xAxis: { type: 'datetime', labels: { style: { color: '#ff0000', textShadow: '0px 0px 5px rgba(255, 0, 0, 1)' } } },
-                yAxis: { title: { text: 'Requests', style: { color: '#ff0000', textShadow: '0px 0px 5px rgba(255, 0, 0, 1)' } }, labels: { style: { color: '#ff0000', textShadow: '0px 0px 5px rgba(255, 0, 0, 1)' } } },
-                series: [{ name: 'Requests', data: [], color: '#ff0000' }],
-                legend: { itemStyle: { color: '#ff0000', textShadow: '0px 0px 5px rgba(255, 0, 0, 1)' } }
-            });
-        });
-    </script>
+    <div class="container">
+        <h1>DSTAT Dashboard</h1>
+        <a href="https://t.me/kittylovers321" class="btn" target="_blank">Telegram Chat</a>
+        <a href="booters.html" class="btn" target="_blank">DDoS Services</a>
+        <div class="leaderboard">
+            <h2>Leaderboard</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Username</th>
+                        <th>RPS</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboardBody">
+                    <!-- Data will be loaded here dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </div><script>
+    document.addEventListener("DOMContentLoaded", function () {
+        fetch('https://cyberkazakhstan.online/web_api')
+            .then(response => response.json())
+            .then(data => {
+                let leaderboardBody = document.getElementById("leaderboardBody");
+                leaderboardBody.innerHTML = "";
+                data.forEach((entry, index) => {
+                    let row = `<tr>
+                        <td>${index + 1}</td>
+                        <td>${entry.username}</td>
+                        <td>${entry.rps}</td>
+                    </tr>`;
+                    leaderboardBody.innerHTML += row;
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    });
+</script>
+
 </body>
 </html>
