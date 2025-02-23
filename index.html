@@ -1,69 +1,44 @@
-<!DOCTYPE html><html>
+<!DOCTYPE html><html lang="id">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>DSTAT | @kittylovers321</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Monitor</title>
     <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: #1a1a1a;
-            color: #f5f5f5;
-        }
         body {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            flex-direction: column;
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
         }
-        #chart {
-            height: 81vh;
-            width: 90%;
-            max-width: 1400px;
-            border: 2px solid #d32f2f;
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #1e1e1e;
+            padding: 20px;
             border-radius: 10px;
-            padding: 1em;
-            background-color: #292929;
-            position: relative;
-            margin-top: 2em;
+        }
+        .stats {
+            font-size: 20px;
+            margin-top: 20px;
         }
     </style>
-    <script src="https://code.highcharts.com/highcharts.js"></script>
 </head>
 <body>
-    <div id="chart"></div>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            fetch("https://www.highcharts.com/?credits")
-                .then(response => response.json())
-                .then(data => {
-                    Highcharts.chart("chart", {
-                        chart: {
-                            type: "line",
-                            backgroundColor: "#292929"
-                        },
-                        title: {
-                            text: "Highcharts Requests",
-                            style: { color: "#f5f5f5" }
-                        },
-                        xAxis: {
-                            type: "datetime",
-                            labels: { style: { color: "#f5f5f5" } }
-                        },
-                        yAxis: {
-                            title: { text: "Requests" },
-                            labels: { style: { color: "#f5f5f5" } }
-                        },
-                        series: [{
-                            name: "Requests",
-                            data: data.requests.map(req => [new Date(req.timestamp).getTime(), req.count]),
-                            color: "#d32f2f"
-                        }]
-                    });
-                })
-                .catch(error => console.error("Error fetching data:", error));
-        });
-    </script>
+    <div class="container">
+        <h1>Cyber Attack Monitor</h1>
+        <p>Memantau serangan DDoS secara real-time</p>
+        <div class="stats">
+            <p>Serangan Hari Ini: <span id="attacks">0</span></p>
+            <p>IP Terblokir: <span id="blocked">0</span></p>
+        </div>
+    </div><script>
+    function updateStats() {
+        document.getElementById("attacks").innerText = Math.floor(Math.random() * 1000);
+        document.getElementById("blocked").innerText = Math.floor(Math.random() * 500);
+    }
+    setInterval(updateStats, 3000);
+</script>
+
 </body>
 </html>
